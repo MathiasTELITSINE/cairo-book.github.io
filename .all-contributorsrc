@@ -58,6 +58,15 @@
       "contributions": [
         "review"
       ]
+    },
+    {
+      "login": "hgedia",
+      "name": "Haresh Gedia",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32969555?v=4",
+      "profile": "https://github.com/hgedia",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
