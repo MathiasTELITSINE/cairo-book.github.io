@@ -1,144 +1,138 @@
 # Installation
 
-The first step is to install Cairo. We will download Cairo manually, using cairo repository or with an installation script. You’ll need an internet connection for the download.
+La première étape consiste à installer Cairo. Nous allons télécharger Cairo manuellement en utilisant le dépôt Cairo ou avec un script d'installation. Vous aurez besoin d'une connexion Internet pour le téléchargement.
 
-### Prerequisites
+### Prérequis
 
-First you will need to have Rust and Git installed.
+Tout d'abord, vous devrez avoir Rust et Git installés.
 
 ```bash
 # Install stable Rust
 rustup override set stable && rustup update
 ```
 
-Install [Git](https://git-scm.com/).
+Installer [Git](https://git-scm.com/).
 
-## Installing Cairo with a Script ([Installer](https://github.com/franalgaba/cairo-installer) by [Fran](https://github.com/franalgaba))
+## Installer Cairo avec un script ([Installer](https://github.com/franalgaba/cairo-installer) by [Fran](https://github.com/franalgaba))
 
-### Install
+### Installer
 
-If you wish to install a specific release of Cairo rather than the latest head, set the `CAIRO_GIT_TAG` environment variable (e.g. `export CAIRO_GIT_TAG=v1.0.0`).
+Si vous souhaitez installer une version spécifique de Cairo plutôt que la dernière version disponible, définissez la variable d'environnement CAIRO_GIT_TAG (par exemple, export CAIRO_GIT_TAG=v1.0.0).
 
 ```bash
 curl -L https://github.com/franalgaba/cairo-installer/raw/main/bin/cairo-installer | bash
 ```
 
-After installing, follow [these instructions](#set-up-your-shell-environment-for-cairo) to set up your shell environment.
+Après l'installation, suivez [ces instructions](#set-up-your-shell-environment-for-cairo) pour configurer votre interface utilisateur.
 
-### Update
+### Mise à jour
 
 ```
 rm -fr ~/.cairo
 curl -L https://github.com/franalgaba/cairo-installer/raw/main/bin/cairo-installer | bash
 ```
 
-### Uninstall
+### Désinstaller
 
-Cairo is installed within `$CAIRO_ROOT` (default: ~/.cairo). To uninstall, just remove it:
+Cairo est installé dans $CAIRO_ROOT (par défaut : ~/.cairo). Pour le désinstaller, il vous suffit de le supprimer :
 
 ```bash
 rm -fr ~/.cairo
 ```
 
-then remove these three lines from .bashrc:
+Ensuite, supprimez ces trois lignes du fichier .bashrc :
 
 ```bash
 export PATH="$HOME/.cairo/target/release:$PATH"
 ```
 
-and finally, restart your shell:
+et enfin, redémarrez votre interface utilisateur : 
 
 ```bash
 exec $SHELL
 ```
 
-### Set up your shell environment for Cairo
+### Configurez votre interface utilisateur pour Cairo.
 
-- Define environment variable `CAIRO_ROOT` to point to the path where
-  Cairo will store its data. `$HOME/.cairo` is the default.
-  If you installed Cairo via Git checkout, we recommend
-  to set it to the same location as where you cloned it.
-- Add the `cairo-*` executables to your `PATH` if it's not already there
+- Définissez la variable d'environnement CAIRO_ROOT pour indiquer le chemin où Cairo stockera ses données. Par défaut, il s'agit de $HOME/.cairo. Si vous avez installé Cairo via une vérification Git, nous vous recommandons de la définir sur le même emplacement que celui où vous l'avez cloné.
+- Ajoutez les exécutables `cairo-*` à votre variable PATH si ce n'est pas déjà fait.
 
-The below setup should work for the vast majority of users for common use cases.
+La configuration ci-dessous devrait fonctionner pour la grande majorité des utilisateurs dans des cas d'utilisation courants.
 
-- For **bash**:
+- Pour **bash**:
 
-  Stock Bash startup files vary widely between distributions in which of them source
-  which, under what circumstances, in what order and what additional configuration they perform.
-  As such, the most reliable way to get Cairo in all environments is to append Cairo
-  configuration commands to both `.bashrc` (for interactive shells)
-  and the profile file that Bash would use (for login shells).
+ Les fichiers de démarrage Bash peuvent varier considérablement selon les distributions quant à la manière dont
+   ils incluent les autres fichiers, dans quelles circonstances, dans quel ordre et quelle configuration supplémentaire ils effectuent
+  Par conséquent, la manière la plus fiable d'obtenir Cairo dans tous les environnements consiste à ajouter les commandes 
+  de configuration de Cairo à la fois dans le fichier .bashrc (pour les shells interactifs) 
+  et dans le fichier de profil que Bash utiliserait (pour les shells de connexion).
 
-  First, add the commands to `~/.bashrc` by running the following in your terminal:
+  Tout d'abord, ajoutez les commandes à ~/.bashrc en exécutant la commande suivante dans votre terminal :
 
   ```bash
   echo 'export CAIRO_ROOT="$HOME/.cairo"' >> ~/.bashrc
   echo 'command -v cairo-compile >/dev/null || export PATH="$CAIRO_ROOT/target/release:$PATH"' >> ~/.bashrc
   ```
 
-  Then, if you have `~/.profile`, `~/.bash_profile` or `~/.bash_login`, add the commands there as well.
-  If you have none of these, add them to `~/.profile`.
+  Ensuite, si vous avez les fichiers ~/.profile, ~/.bash_profile ou ~/.bash_login, ajoutez également les commandes à l'un de ces fichiers.
+  Si vous n'avez aucun de ces fichiers, ajoutez-les à ~/.profile.
 
-  - to add to `~/.profile`:
+  - pour ajouter à `~/.profile`:
 
     ```bash
     echo 'export CAIRO_ROOT="$HOME/.cairo"' >> ~/.profile
     echo 'command -v cairo-compile >/dev/null || export PATH="$CAIRO_ROOT/target/release:$PATH"' >> ~/.profile
     ```
 
-  - to add to `~/.bash_profile`:
+  - pour ajouter à `~/.bash_profile`:
     ```bash
     echo 'export CAIRO_ROOT="$HOME/.cairo"' >> ~/.bash_profile
     echo 'command -v cairo-compile >/dev/null || export PATH="$CAIRO_ROOT/target/release:$PATH"' >> ~/.bash_profile
     ```
 
-- For **Zsh**:
+- Pour **Zsh**:
 
   ```zsh
   echo 'export CAIRO_ROOT="$HOME/.cairo"' >> ~/.zshrc
   echo 'command -v cairo-compile >/dev/null || export PATH="$CAIRO_ROOT/target/release:$PATH"' >> ~/.zshrc
   ```
 
-  If you wish to get Cairo in non-interactive login shells as well, also add the commands to `~/.zprofile` or `~/.zlogin`.
+  Si vous souhaitez utiliser Cairo également dans les shells de connexion non interactifs, ajoutez également les commandes à ~/.zprofile ou ~/.zlogin.
 
-- For **Fish shell**:
+- Pour **l'interface Fish**:
 
-  If you have Fish 3.2.0 or newer, execute this interactively:
+  Si vous utilisez Fish 3.2.0 ou une version plus récente, exécutez ceci de manière interactive :
 
   ```fish
   set -Ux CAIRO_ROOT $HOME/.cairo
   fish_add_path $CAIRO_ROOT/target/release
   ```
 
-  Otherwise, execute the snippet below:
+  Sinon, exécutez le code ci-dessous :
 
   ```fish
   set -Ux CAIRO_ROOT $HOME/.cairo
   set -U fish_user_paths $CAIRO_ROOT/target/release $fish_user_paths
   ```
 
-In MacOS, you might also want to install [Fig](https://fig.io/) which
-provides alternative shell completions for many command line tools with an
-IDE-like popup interface in the terminal window.
-(Note that their completions are independent from Cairo's codebase
-so they might be slightly out of sync for bleeding-edge interface changes.)
+Sur MacOS, vous voudrez peut-être également installer [Fig](https://fig.io/), qui fournit des complétions alternatives pour de nombreux outils en ligne de commande avec une interface contextuelle de type IDE dans la fenêtre du terminal.
+(Notez que leurs complétions sont indépendantes de la base de code de Cairo, il se peut donc qu'elles ne soient pas tout à fait à jour pour les changements d'interface les plus récents.)
 
-### Restart your shell
+### Redémarrez votre interface.
 
-for the `PATH` changes to take effect.
+afin que les modifications de `PATH` prennent effet.
 
 ```sh
 exec "$SHELL"
 ```
 
-## Installing Cairo Manually ([Guide](https://github.com/auditless/cairo-template) by [Abdel](https://github.com/abdelhamidbakhta))
+## Installer Cairo manuellement ([Guide](https://github.com/auditless/cairo-template) par [Abdel](https://github.com/abdelhamidbakhta))
 
-### Step 1: Install Cairo 1.0
+### Étape 1 : Installer Cairo 1.0
 
-If you are using an x86 Linux system and can use the release binary, download Cairo here: <https://github.com/starkware-libs/cairo/releases>.
+Si vous utilisez un système Linux x86 et que vous pouvez utiliser la version binaire de sortie, téléchargez Cairo à partir d'ici : <https://github.com/starkware-libs/cairo/releases>.
 
-For everyone else, we recommend compiling Cairo from source as follows:
+Pour tous les autres, nous recommandons de compiler Cairo à partir des sources de la manière suivante :
 
 ```bash
 # Start by defining environment variable CAIRO_ROOT
@@ -164,37 +158,36 @@ cargo build --all --release
 
 .
 
-**NOTE: Keeping Cairo up to date**
+**NOTE : Maintenir Cairo à jour**
 
-Now that your Cairo compiler is in a cloned repository, all you will need to do
-is pull the latest changes and rebuild as follows:
+Maintenant que votre compilateur Cairo se trouve dans un dépôt cloné, tout ce que vous avez à faire est de récupérer les dernières modifications et de reconstruire comme suit :
 
 ```bash
 cd $CAIRO_ROOT && git fetch && git pull && cargo build --all --release
 ```
 
-### Step 2: Add Cairo 1.0 executables to your path
+### Étape 2 : Ajouter les exécutables Cairo 1.0 à votre chemin d'accès (PATH)
 
 ```bash
 export PATH="$CAIRO_ROOT/target/release:$PATH"
 ```
 
-**NOTE: If installing from a Linux binary, adapt the destination path accordingly.**
+**NOTE : Si vous installez à partir d'une version binaire Linux, adaptez le chemin de destination en conséquence.**
 
-### Step 3: Setup Language Server
+### Étape 3 : Configuration du serveur de langage (Language Server)
 
-#### VS Code Extension
+#### Extension pour VS Code
 
-- Disable previous Cairo 0.x extension
-- Install the Cairo 1 extension for proper syntax highlighting and code navigation.
-  Just follow the steps indicated [here](https://github.com/starkware-libs/cairo/blob/main/vscode-cairo/README.md).
+- Désactiver l'ancienne extension Cairo 0.x
+- Installez l'extension Cairo 1 pour une mise en évidence syntaxique adéquate et une navigation dans le code.
+  Suivez simplement les étapes indiquées [ici](https://github.com/starkware-libs/cairo/blob/main/vscode-cairo/README.md).
 
-#### Cairo Language Server
+#### Serveur de langage Cairo
 
-From [Step 1](#step-1-install-cairo-10-guide-by-abdel), the `cairo-language-server` binary should be built and executing this command will copy its path into your clipboard.
+Grâce à l'[Étape 1](#step-1-install-cairo-10-guide-by-abdel), le binaire `cairo-language-server` doit être compilé et l'exécution de cette commande copiera son chemin dans votre presse-papiers.
 
 ```bash
 which cairo-language-server | pbcopy
 ```
 
-Update the `languageServerPath` of the Cairo 1.0 extension by pasting the path.
+Mettez à jour le `languageServerPath` de l'extension Cairo 1.0 en collant le chemin.
